@@ -7,20 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
-
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Data
-@Table(name=("user"))
+@Table(name="users")
 public class User {
+
     @Id
-    private Long id;
+    private String id;
 
-    private String name;
+    private String  name;
+
     private String email;
-
-    @OneToMany
-    private Set<Catagory> category;
 
 }
