@@ -8,10 +8,10 @@ class AppNav extends Component {
         return (
           <div>
             <Navbar color="dark" dark  expand="md">
-              <NavbarBrand href="/">Expense Tracker Application</NavbarBrand>
+              <NavbarBrand href="/">Project Expense Tracker</NavbarBrand>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink href="/">Home</NavLink>
+                    <NavLink href="/">Project Expence Overveiw</NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink href="/categories">Categories</NavLink>

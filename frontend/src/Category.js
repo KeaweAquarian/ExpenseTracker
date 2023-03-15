@@ -9,7 +9,7 @@ class Category extends Component {
     }
  
     async componentDidMount(){
-        const response=await fetch('/api/categories');
+        const response=await fetch('http://projectbudgettracker-env-1.eba-w5cwheeg.us-east-1.elasticbeanstalk.com/api/categories');
         const body = await response.json();
         this.setState({Categories : body , isLoading: false});
     }

@@ -12,7 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Optional;
-
+@CrossOrigin
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 public class CategoryController {
@@ -27,7 +27,7 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/categories/{id}")
     ResponseEntity<?> getCategory(@PathVariable Long id){
         Optional<Category> category = categoryRepository.findById(id);
         return category.map(response -> ResponseEntity.ok().body(response))
@@ -35,21 +35,26 @@ public class CategoryController {
 
     }
 
-    @PostMapping("/category")
-    ResponseEntity<Category> createCategory(@Validated @RequestBody Category category) throws URISyntaxException{
+    @PostMapping("/categories")
+    ResponseEntity<Category> createCategory( @RequestBody Category category) throws URISyntaxException{
         Category result = categoryRepository.save(category);
-        return ResponseEntity.created(new URI("/api/category" + result.getId())).body(result);
+        return ResponseEntity.created(new URI("/api/categories" + result.getId())).body(result);
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/categories/{id}")
     ResponseEntity<Category> updateCategory(@Validated @RequestBody Category category){
         Category result = categoryRepository.save(category);
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/categories/{id}")
     ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        categoryRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        try{
+            categoryRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState} from 'react';
 import AppNav from './appNav';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,26 +6,55 @@ import './App.css';
 import { Table,Container,Input,Button,Label, FormGroup, Form} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
+import Budget from './components/Budget';
+import Remaining from './components/Remaining';
+import ExpenseTotal from './components/ExpenseTotal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+// const Expenses = () => {
+//   const [emptyItem, setEmptyItem] = useState(
+//     {
+//         description : '' ,
+//         expensedate : new Date(),
+//         // id:number,
+//         location : '',
+//         amount:0,
+//         category : {id:1 , name:'Travel'}
+//     }
+//   );
+//   const [budget, setBudget] = useState(2000);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [Categories, setCategories] = useState([]);
+//   const [Expsenses , setExpsenses ] = useState([]);
+//   const [date, setDate] = useState(new Date());
+
+  
+
+//   return (
+//     <div>
+      
+//     </div>
+//   )
+// }
+
+// export default Expenses
+
 
 class Expsenses extends Component {
 
-  // {
-  //   "id": 100,
-  //   "expensedate": "2019-06-16T17:00:00Z",
-  //   "description": "New York Business Trip",
-  //   "location": "New York",
-  //   "category": {
-  //   "id": 1,
-  //   "name": "Travel"
-  //   }
-  //   },
+ 
+    
  
     emptyItem = {
         description : '' ,
         expensedate : new Date(),
-        id:104,
+        // id:number,
         location : '',
-        category : {id:1 , name:'Travel'}
+        amount:0,
+        category : {id:101 , name:'Travel'}
     }
 
     
@@ -33,6 +62,7 @@ class Expsenses extends Component {
       super(props)
 
       this.state = { 
+        budget:2000,
         isLoading :false,
         Categories:[],
         Expsenses : [],
@@ -43,17 +73,23 @@ class Expsenses extends Component {
        this.handleSubmit= this.handleSubmit.bind(this);
        this.handleChange= this.handleChange.bind(this);
        this.handleDateChange= this.handleDateChange.bind(this);
+       this.handleBudget= this.handleBudget.bind(this);
+
 
     } 
 
+    handleBudget(value){
+      // this.setState({budget:value});
+      console.log(value.props)
+    }
+
     async handleSubmit(event){
-        let st = "lakjsd"
-        console.log(st);
       const item = this.state.item;
       event.preventDefault();
-    
+   
+      console.log(item)
 
-      await fetch(`/api/expenses`, {
+      await fetch(`http://localhost:5000/api/expenses`, {
         method : 'POST',
         RequestMode:'no-cors',
         headers : {
@@ -63,8 +99,8 @@ class Expsenses extends Component {
         body : JSON.stringify(item),
       });
       
-      window.location.reload();
-      this.props.history.push("/expenses");
+      // window.location.reload();
+      // this.props.history.push("http://projectbudgettracker-env-1.eba-w5cwheeg.us-east-1.elasticbeanstalk.com/api/expenses");
     }
 
 
@@ -86,14 +122,17 @@ class Expsenses extends Component {
     
     }
 
+  
+
 
 
 
 
 
     async remove(id){
-        await fetch(`/api/expenses/${id}` , {
+        await fetch(`http://projectbudgettracker-env-1.eba-w5cwheeg.us-east-1.elasticbeanstalk.com/api/expenses/${id}` , {
           method: 'DELETE' ,
+          RequestMode:'no-cors',
           headers : {
             'Accept' : 'application/json',
             'Content-Type' : 'application/json'
@@ -111,12 +150,12 @@ class Expsenses extends Component {
  
      
 
-        const response= await fetch('/api/categories');
+        const response= await fetch('http://projectbudgettracker-env-1.eba-w5cwheeg.us-east-1.elasticbeanstalk.com/api/categories');
         const body= await response.json();
         this.setState({Categories : body , isLoading :false});
 
 
-        const responseExp= await fetch('/api/expenses');
+        const responseExp= await fetch('http://projectbudgettracker-env-1.eba-w5cwheeg.us-east-1.elasticbeanstalk.com/api/expenses');
         const bodyExp = await responseExp.json();
         this.setState({Expsenses : bodyExp , isLoading :false});
        
@@ -128,6 +167,7 @@ class Expsenses extends Component {
 
 
     render() { 
+         let number = uuidv4();
         const title =<h3>Add Expense</h3>;
         const {Categories} =this.state;
         const {Expsenses,isLoading} = this.state;
@@ -152,17 +192,41 @@ class Expsenses extends Component {
                 <td>{expense.location}</td>
                 <td><Moment date={expense.expensedate} format="YYYY/MM/DD"/></td>
                 <td>{expense.category.name}</td>
+                <td>{expense.amount}</td>
                 <td><Button size="sm" color="danger" onClick={() => this.remove(expense.id)}>Delete</Button></td>
 
               </tr>
-
-
             )
+            let total = 0;
+             Expsenses.map(exspence =>
+              total = total + exspence.amount,
+              
+             )
+
         
 
+  //         const total = Expsenses.reduce((total, item) => {
+	// 	return (total += item.amount);
+	// }, 0);
+
         return (
-            <div>
+            <div >
+
                 <AppNav/>
+            <div className='container'>
+           <div className='row mt-3'>
+					<div className='col-sm'>
+						<Budget budget = {this.state.budget} budgetChange={()=> this.handleBudget()} />
+					</div>
+					<div className='col-sm'>
+						<Remaining />
+					</div>
+					<div className='col-sm'>
+						<ExpenseTotal total={total}/>
+					</div>
+				</div>
+               </div>
+                
                 <Container>
                     {title}
                     
@@ -194,6 +258,13 @@ class Expsenses extends Component {
                         </FormGroup>
                       
                     </div>
+                      <div className="row">
+                        <FormGroup className="col-md-4 mb-3">
+                        <Label for="amount">Amount</Label>
+                        <Input type="number" name="amount" id="amount" onChange={this.handleChange}/>
+                        </FormGroup>
+                      
+                    </div>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
                         <Button color="secondary" tag={Link} to="/">Cancel</Button>
@@ -212,6 +283,7 @@ class Expsenses extends Component {
                     <th width="10%">Location</th>
                     <th> Date</th>
                     <th> Category</th>
+                    <th>Amount</th>
                     <th width="10%">Action</th>
                   </tr>
                 </thead>

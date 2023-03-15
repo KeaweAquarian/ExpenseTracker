@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -18,20 +16,31 @@ import java.time.Instant;
 public class Expense {
 
     @Id
+    @SequenceGenerator(
+            name="expense_sequence",
+            sequenceName = "expense_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,
+            generator="expense_sequence")
     private Long id;
 
-    private Instant expensedate;
+    private float amount;
+
+    private Date expensedate;
 
     private String description;
 
     private String location;
 
+
     @ManyToOne
     private Category category;
 
-    @JsonIgnore
-    @ManyToOne
-    private User user;
+//    @JsonIgnore
+//    @ManyToOne
+//    private User user;
 
 
 }
