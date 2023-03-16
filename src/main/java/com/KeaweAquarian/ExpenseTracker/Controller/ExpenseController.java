@@ -18,18 +18,16 @@ public class ExpenseController {
 
     @Autowired
     private ExpenseRepository expenseRepository;
-    @CrossOrigin
     @GetMapping("/expenses")
     List<Expense> getExpenses(){
         return expenseRepository.findAll();
     }
-    @CrossOrigin
     @DeleteMapping("/expenses/{id}")
     ResponseEntity<?>  deleteExpense(@PathVariable Long id){
         expenseRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-    @CrossOrigin
+
     @PostMapping("/expenses")
     ResponseEntity<Expense> createExpense(@RequestBody Expense expense) throws URISyntaxException{
         Expense result= expenseRepository.save(expense);

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -38,9 +37,8 @@ public class Expense {
     @ManyToOne
     private Category category;
 
-//    @JsonIgnore
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    private User user;
 
 
 }

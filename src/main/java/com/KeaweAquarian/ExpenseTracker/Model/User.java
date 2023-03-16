@@ -2,22 +2,30 @@ package com.KeaweAquarian.ExpenseTracker.Model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
+
 @Table(name="users")
 public class User {
 
     @Id
-    private String id;
+    @SequenceGenerator(
+            name="user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
 
-    private String  name;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,
+            generator="user_sequence")
+    private Long id;
+
+    private String  nameName;
+
+    private String lastName;
 
     private String email;
 

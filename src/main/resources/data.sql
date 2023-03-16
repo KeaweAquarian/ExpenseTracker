@@ -1,6 +1,6 @@
-insert into users values (1,'Siamak', 'Codeengine11@gmail.com');
-insert into users values (2,'John', 'John@john.com');
-insert into users values (3,'Adam', 'adam@adam.com');
+insert into users values (101,'Helen', 'Keller', 'Codeengine11@gmail.com');
+insert into users values (102,'John', 'Doe', 'John@john.com');
+insert into users values (103,'Adam', 'Smith', 'adam@adam.com');
 
 
 insert into category values (101,'Travel');
@@ -14,6 +14,6 @@ insert into category values (108,'Utilities');
 insert into category  values (109,'Infrastructure');
 
 
-insert into expense values (100,890.98,'New York Business Trip','2023-06-16T17:00:00.000Z','New York',101);
-insert into expense values (101,569.98,'Ford Mustang Payment','2023-06-15T15:00:00.000Z','Los Angeles',102);
-insert into expense values(102,5634.98,'Grand Canyon Trip With Family','2023-06-15T15:00:00.000Z','Arizona',103);
+insert into expense values (100,890.98,'New York Business Trip','2023-06-16T17:00:00.000Z','New York',101,101);
+insert into expense values (101,569.98,'Initial Planning','2023-06-15T15:00:00.000Z','Montreal',102,101);
+insert into expense values(102,5634.98,'Meeting with client','2023-06-15T15:00:00.000Z','Quebec',103,101);
