@@ -1,14 +1,20 @@
-package com.KeaweAquarian.ExpenseTracker.Model;
+package com.KeaweAquarian.ExpenseTracker.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
-
 @Table(name="users")
 public class User {
 
@@ -23,10 +29,13 @@ public class User {
             generator="user_sequence")
     private Long id;
 
-    private String  nameName;
+    private String  name;
 
-    private String lastName;
+    private String userName;
 
-    private String email;
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
 }

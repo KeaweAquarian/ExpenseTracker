@@ -1,7 +1,6 @@
 package com.KeaweAquarian.ExpenseTracker.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import com.KeaweAquarian.ExpenseTracker.domain.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

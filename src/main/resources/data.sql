@@ -1,3 +1,5 @@
+insert into roles values (101,'admin');
+
 insert into users values (101,'Helen', 'Keller', 'Codeengine11@gmail.com');
 insert into users values (102,'John', 'Doe', 'John@john.com');
 insert into users values (103,'Adam', 'Smith', 'adam@adam.com');
