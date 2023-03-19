@@ -1,5 +1,7 @@
 package com.KeaweAquarian.ExpenseTracker.service;
 
+import com.KeaweAquarian.ExpenseTracker.Model.Category;
+import com.KeaweAquarian.ExpenseTracker.Repository.CategoryRepository;
 import com.KeaweAquarian.ExpenseTracker.Repository.RoleRepository;
 import com.KeaweAquarian.ExpenseTracker.Repository.UserRepository;
 import com.KeaweAquarian.ExpenseTracker.domain.Role;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final CategoryRepository categoryRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(username);
@@ -45,6 +49,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Saving new user {} to the database", user.getUserName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
     }
 
     @Override

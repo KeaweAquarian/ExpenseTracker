@@ -1,5 +1,6 @@
 package com.KeaweAquarian.ExpenseTracker;
 
+import com.KeaweAquarian.ExpenseTracker.Model.Category;
 import com.KeaweAquarian.ExpenseTracker.domain.Role;
 import com.KeaweAquarian.ExpenseTracker.domain.User;
 import com.KeaweAquarian.ExpenseTracker.service.UserService;
@@ -36,12 +37,15 @@ public class ExpenseTrackerApplication {
 
 			userService.addRoleToUser("john", "ROLE_USER");
 			userService.addRoleToUser("john", "ROLE_MANAGER");
+			userService.addRoleToUser("john", "ROLE_ADMIN");
 			userService.addRoleToUser("will", "ROLE_ADMIN");
 			userService.addRoleToUser("will", "ROLE_MANAGER");
 			userService.addRoleToUser("cindy", "ROLE_USER");
 			userService.addRoleToUser("ken", "ROLE_SUPER_ADMIN");
 			userService.addRoleToUser("jan", "ROLE_USER");
 			userService.addRoleToUser("jan", "ROLE_MANAGER");
+
+			userService.saveCategory(new Category(null,"travel"));
 		};
 	}
 	@Bean
