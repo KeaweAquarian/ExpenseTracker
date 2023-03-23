@@ -21,8 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 /**
@@ -52,23 +51,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(POST, "/api/user/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/categories/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/categories/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(DELETE, "/api/categories/{id}").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(GET, "/api/expenses/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/expenses/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(DELETE, "/api/expenses/{id}").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(GET, "/api/role/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/role/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.cors();
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-//        corsConfiguration.setAllowedOrigins(List.of("*"));
-//        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT","OPTIONS","PATCH", "DELETE"));
-//        corsConfiguration.setAllowCredentials(true);
-//        corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
-//        http.authorizeRequests().antMatchers("/**").permitAll().anyRequest()
-//                .authenticated().and().csrf().disable().cors().configurationSource(request -> corsConfiguration);
     }
     @Bean
     @Override
