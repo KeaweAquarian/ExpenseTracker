@@ -29,7 +29,9 @@ public class User {
             generator="user_sequence")
     private Long id;
 
-    private String  name;
+    private String  firstName;
+
+    private String  lastName;
 
     private String userName;
 

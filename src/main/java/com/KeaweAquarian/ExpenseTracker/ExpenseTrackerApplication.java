@@ -32,11 +32,11 @@ public class ExpenseTrackerApplication {
 			userService.saveRole(new Role(null, "ROLE_ADMIN"));
 			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-			userService.saveUser(new User(null,"John Rays", "john", "1234", new ArrayList<Role>()));
-			userService.saveUser(new User(null,"Will Topper", "will", "1234", new ArrayList<Role>()));
-			userService.saveUser(new User(null,"Jan Bears", "jan", "1234", new ArrayList<Role>()));
-			userService.saveUser(new User(null,"Cindy Lou", "cindy", "1234", new ArrayList<Role>()));
-			userService.saveUser(new User(null,"Ken Davids", "ken", "1234", new ArrayList<Role>()));
+			userService.saveUser(new User(null,"John", "Rays", "john", "1234", new ArrayList<Role>()));
+			userService.saveUser(new User(null,"Will", "Topper", "will", "1234", new ArrayList<Role>()));
+			userService.saveUser(new User(null,"Jan", "Bears", "jan", "1234", new ArrayList<Role>()));
+			userService.saveUser(new User(null,"Cindy", "Lou", "cindy", "1234", new ArrayList<Role>()));
+			userService.saveUser(new User(null,"Ken", "Davids", "ken", "1234", new ArrayList<Role>()));
 
 			userService.addRoleToUser("john", "ROLE_USER");
 			userService.addRoleToUser("john", "ROLE_MANAGER");
