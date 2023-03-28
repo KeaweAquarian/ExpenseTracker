@@ -20,7 +20,10 @@ import java.util.Date;
 public class ExpenseTrackerApplication {
 
 	public static void main(String[] args) {
+		System.out.println(System.getenv("SECRET_KEY"));
+		System.out.println(System.getenv("ACCESS_KEY"));
 		SpringApplication.run(ExpenseTrackerApplication.class, args);
+
 	}
 
 }

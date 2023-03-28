@@ -34,10 +34,10 @@ public class DataConfig {
             userService.addRoleToUser("john", "ROLE_USER");
             userService.addRoleToUser("john", "ROLE_MANAGER");
             userService.addRoleToUser("john", "ROLE_ADMIN");
-            userService.addRoleToUser("will", "ROLE_ADMIN");
+            userService.addRoleToUser("will", "ROLE_USER");
             userService.addRoleToUser("will", "ROLE_MANAGER");
             userService.addRoleToUser("cindy", "ROLE_USER");
-            userService.addRoleToUser("ken", "ROLE_SUPER_ADMIN");
+            userService.addRoleToUser("ken", "ROLE_USER");
             userService.addRoleToUser("jan", "ROLE_USER");
             userService.addRoleToUser("jan", "ROLE_MANAGER");
 
