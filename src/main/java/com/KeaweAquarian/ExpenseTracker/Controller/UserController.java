@@ -11,8 +11,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,19 @@ public class UserController {
     public ResponseEntity<User> saveUsers(@RequestBody User user){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
+    }
+    @PostMapping(
+            path = "user/{id}/image/upload",
+    consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void uploadUserProfileImage(@PathVariable("id") Long id, @RequestParam("file")MultipartFile file){
+        userService.uploadUserProfileImage(id, file);
+    }
+
+    @GetMapping("user/{id}/image/download")
+    public byte[] downloadUserProfileImage(@PathVariable("id") Long id){
+        return userService.downloadUserProfileImage(id);
     }
 
     @GetMapping("/role")

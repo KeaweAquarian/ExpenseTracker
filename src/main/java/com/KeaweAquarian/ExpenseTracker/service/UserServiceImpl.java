@@ -6,10 +6,13 @@ import com.KeaweAquarian.ExpenseTracker.Repository.CategoryRepository;
 import com.KeaweAquarian.ExpenseTracker.Repository.ExpenseRepository;
 import com.KeaweAquarian.ExpenseTracker.Repository.RoleRepository;
 import com.KeaweAquarian.ExpenseTracker.Repository.UserRepository;
+import com.KeaweAquarian.ExpenseTracker.bucket.BucketName;
 import com.KeaweAquarian.ExpenseTracker.domain.Role;
 import com.KeaweAquarian.ExpenseTracker.domain.User;
+import com.KeaweAquarian.ExpenseTracker.fileStore.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.entity.ContentType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +20,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -31,6 +34,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final CategoryRepository categoryRepository;
 
     private final ExpenseRepository expenseRepository;
+
+    private final FileStore fileStore;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -97,8 +102,52 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void uploadUserProfileImage(Long id, MultipartFile file) {
+        if(!file.isEmpty()){
+            if (!Arrays.asList(ContentType.IMAGE_JPEG, ContentType.IMAGE_GIF, ContentType.IMAGE_PNG).contains(file.getContentType())){
+                User user = userRepository
+                        .findAll()
+                        .stream()
+                        .filter(userProfile -> userProfile.getId().equals(id))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException(String.format("User profile %s not found", id)));
+                Map<String, String> metaData = new HashMap<>();
+                metaData.put("Content-Type", file.getContentType());
+                metaData.put("Content-Length", String.valueOf(file.getSize()));
+
+                String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), user.getId());
+                String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
+                try {
+                    fileStore.save(path, fileName, Optional.of(metaData), file.getInputStream() );
+
+                    user.setUserProfileImageLink(fileName);
+                } catch (IOException e) {
+                    throw new IllegalStateException(e);
+                }
+
+            }else throw new IllegalStateException("Image must be of type jpeg, png or gif!");
+        }else throw new IllegalStateException("File is empty!");
+    }
+
+    @Override
     public Category getCategory(Long id) {
         return categoryRepository.getById(id);
+    }
+
+    @Override
+    public byte[] downloadUserProfileImage(Long id) {
+        User user = userRepository
+                .findAll()
+                .stream()
+                .filter(userProfile -> userProfile.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(String.format("User profile %s not found", id)));
+        String path = String.format("%s/%s",
+                BucketName.PROFILE_IMAGE.getBucketName(),
+                user.getId());
+        return user.getUserProfileImageLink()
+                .map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
     }
 
 

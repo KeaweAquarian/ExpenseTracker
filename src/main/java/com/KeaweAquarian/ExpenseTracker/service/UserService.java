@@ -4,6 +4,7 @@ import com.KeaweAquarian.ExpenseTracker.Model.Category;
 import com.KeaweAquarian.ExpenseTracker.Model.Expense;
 import com.KeaweAquarian.ExpenseTracker.domain.Role;
 import com.KeaweAquarian.ExpenseTracker.domain.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,7 +16,11 @@ public interface UserService {
     Role saveRole(Role role);
     void addRoleToUser(String userName, String roleName);
     User getUser(String userName);
-    List<User>getUser();
+    List<User> getUser();
+
+    void uploadUserProfileImage(Long id, MultipartFile file);
 
     Category getCategory(Long id);
+
+    byte[] downloadUserProfileImage(Long id);
 }
