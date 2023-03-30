@@ -23,4 +23,8 @@ public interface UserService {
     Category getCategory(Long id);
 
     byte[] downloadUserProfileImage(Long id);
+
+    void deleteUser(Long id);
+
+    void updateUser(Long id, String firstName, String lastName, String username, String password, String userProfileImageLink);
 }

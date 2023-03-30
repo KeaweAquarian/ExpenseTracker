@@ -44,12 +44,31 @@ public class UserController {
 
         return ResponseEntity.ok().body(userService.getUser(username));
     }
+    @DeleteMapping("/user/{id}")
+    public void getUser(@PathVariable Long id){
+        userService.deleteUser(id);
+
+    }
 
     @PostMapping("/user/add")
     public ResponseEntity<User> saveUsers(@RequestBody User user){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
+
+    @PutMapping("/user/{id}")
+    public void updateUser(
+            @PathVariable("id") Long id,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) String userProfileImageLink
+
+    ){
+        userService.updateUser(id, firstName, lastName, username, password, userProfileImageLink);
+    }
+
     @PostMapping(
             path = "user/{id}/image/upload",
     consumes = MediaType.MULTIPART_FORM_DATA_VALUE,

@@ -55,6 +55,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User saveUser(User user) {
+        Optional<User> userOptional = Optional.ofNullable(userRepository
+                .findByUserName(user.getUserName()));
+        if (userOptional.isPresent()){
+            throw new IllegalStateException("Username " + user.getUserName() + " is already associated with an account");
+        }
         log.info("Saving new user {} to the database", user.getUserName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -148,6 +153,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user.getUserProfileImageLink()
                 .map(key -> fileStore.download(path, key))
                 .orElse(new byte[0]);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        boolean exists = userRepository.existsById(id);
+        if (!exists){
+            throw new IllegalStateException("User with id " + id + "does not exist");
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(Long id, String firstName, String lastName, String username, String password, String userProfileImageLink) {
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new IllegalStateException("User not found with id " + id));
+        if(firstName != null && firstName.length() > 0 && !Objects.equals(user.getFirstName(), firstName)){
+            user.setFirstName(firstName);
+        }
+        if(lastName != null && lastName.length() > 0 && !Objects.equals(user.getLastName(), lastName)){
+            user.setLastName(lastName);
+        }
+        if(username != null && username.length() > 0 && !Objects.equals(user.getUserName(), username)){
+            Optional<User> userOptional = Optional.ofNullable(userRepository.findByUserName(username));
+            if (userOptional.isPresent()){
+                throw new IllegalStateException("Username " + username + " is already associated with an account");
+            }
+            user.setUserName(username);
+        }
+        if(password != null && password.length() > 0 && !Objects.equals(user.getPassword(), password)){
+            user.setPassword(password);
+        }
+
     }
 
 
