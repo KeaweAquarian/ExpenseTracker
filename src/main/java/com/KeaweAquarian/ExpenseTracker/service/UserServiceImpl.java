@@ -64,23 +64,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-
+    //Add new expence category
     @Override
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
 
+
+    //Save an expense
     @Override
     public Expense saveExpense(Expense expense) {
         return expenseRepository.save(expense);
     }
 
+    //Saving a user role
     @Override
     public Role saveRole(Role role) {
         log.info("Saving new role {} to the database", role.getName());
         return roleRepository.save(role);
     }
 
+    //Adding a role to a user
     @Override
     public void addRoleToUser(String userName, String roleName) {
         log.info("Adding role {} to user {} new role {}", roleName, userName);
@@ -89,6 +93,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
           user.getRoles().add(role);
     }
 
+    //finding user detials
     @Override
     public User getUser(String userName) {
         log.info("Fetching user {}", userName);
@@ -100,12 +105,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return roleRepository.findAll();
     }
 
+    //Getting all users
     @Override
     public List<User> getUser() {
         log.info("Fetching all users");
         return userRepository.findAll();
     }
 
+    //Uploading a user profile image
     @Override
     public void uploadUserProfileImage(Long id, MultipartFile file) {
         if(!file.isEmpty()){
@@ -139,6 +146,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return categoryRepository.getById(id);
     }
 
+    //Downloading a user profile image
     @Override
     public byte[] downloadUserProfileImage(Long id) {
         User user = userRepository
@@ -155,6 +163,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElse(new byte[0]);
     }
 
+    //Deleting a user
     @Override
     public void deleteUser(Long id) {
         boolean exists = userRepository.existsById(id);
@@ -164,6 +173,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    //Updating a user detials
     @Transactional
     @Override
     public void updateUser(Long id, String firstName, String lastName, String username, String password, String userProfileImageLink) {
