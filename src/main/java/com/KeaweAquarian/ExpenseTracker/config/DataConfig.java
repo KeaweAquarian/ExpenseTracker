@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 
+//Sample data for for demo account.
 @Configuration
 public class DataConfig {
     @Bean

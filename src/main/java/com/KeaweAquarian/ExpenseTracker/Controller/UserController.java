@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,28 +33,33 @@ public class UserController {
 
     private final UserService userService;
 
+    //Return list of users
     @GetMapping("/user")
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userService.getUser());
     }
 
+    //Return individual user
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUser(@PathVariable String username){
 
         return ResponseEntity.ok().body(userService.getUser(username));
     }
+    //delete a user
     @DeleteMapping("/user/{id}")
     public void getUser(@PathVariable Long id){
         userService.deleteUser(id);
 
     }
 
+    //Add a user
     @PostMapping("/user/add")
     public ResponseEntity<User> saveUsers(@RequestBody User user){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
+    //Edit a user
     @PutMapping("/user/{id}")
     public void updateUser(
             @PathVariable("id") Long id,
@@ -69,6 +73,7 @@ public class UserController {
         userService.updateUser(id, firstName, lastName, username, password, userProfileImageLink);
     }
 
+    //Add user image to bucket
     @PostMapping(
             path = "user/{id}/image/upload",
     consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -78,16 +83,19 @@ public class UserController {
         userService.uploadUserProfileImage(id, file);
     }
 
+    //Download user image from bucket
     @GetMapping("user/{id}/image/download")
     public byte[] downloadUserProfileImage(@PathVariable("id") Long id){
         return userService.downloadUserProfileImage(id);
     }
 
+    //Get list of roles
     @GetMapping("/role")
     public ResponseEntity<List<Role>> getRoles(){
         return ResponseEntity.ok().body(userService.getRoles());
     }
 
+    //Add a role
     @PostMapping("/role")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role").toUriString());
@@ -100,6 +108,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    //Refresh token
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);

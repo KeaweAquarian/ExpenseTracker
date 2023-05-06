@@ -1,5 +1,6 @@
 package com.KeaweAquarian.ExpenseTracker.bucket;
 
+//Amazon bucket
 public enum BucketName {
     PROFILE_IMAGE("keawe-aws-image-upload-123");
     private final String bucketName;

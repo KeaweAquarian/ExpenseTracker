@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class AmazonConfig {
     @Bean
     public AmazonS3 s3(){
+        //key details stored in environmental variables
         AWSCredentials awsCredentials = new BasicAWSCredentials(
                 System.getenv("ACCESS_KEY"),
                 System.getenv("SECRET_KEY")

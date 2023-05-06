@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.print.attribute.URISyntax;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -22,11 +20,13 @@ public class CategoryController {
         super();
         this.categoryRepository = categoryRepository;
     }
+    //Return list of categories
     @GetMapping("/categories")
     Collection<Category> categories(){
         return categoryRepository.findAll();
     }
 
+    //Return individual category
     @GetMapping("/categories/{id}")
     ResponseEntity<?> getCategory(@PathVariable Long id){
         Optional<Category> category = categoryRepository.findById(id);
@@ -34,19 +34,19 @@ public class CategoryController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
-
+    //Add a category
     @PostMapping("/categories")
     ResponseEntity<Category> createCategory( @RequestBody Category category) throws URISyntaxException{
         Category result = categoryRepository.save(category);
         return ResponseEntity.created(new URI("/api/categories" + result.getId())).body(result);
     }
-
+    //Edit a category
     @PutMapping("/categories/{id}")
     ResponseEntity<Category> updateCategory(@Validated @RequestBody Category category){
         Category result = categoryRepository.save(category);
         return ResponseEntity.ok().body(result);
     }
-
+    //Delete a category
     @DeleteMapping("/categories/{id}")
     ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         try{
