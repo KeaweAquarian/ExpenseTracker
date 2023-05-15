@@ -3,6 +3,11 @@ package com.KeaweAquarian.ExpenseTracker.Repository;
 import com.KeaweAquarian.ExpenseTracker.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserName(String userName);
 }

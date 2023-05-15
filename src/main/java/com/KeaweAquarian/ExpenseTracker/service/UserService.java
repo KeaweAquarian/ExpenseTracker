@@ -5,9 +5,13 @@ import com.KeaweAquarian.ExpenseTracker.Model.Expense;
 import com.KeaweAquarian.ExpenseTracker.domain.Role;
 import com.KeaweAquarian.ExpenseTracker.domain.User;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
 public interface UserService {
     User saveUser(User user);
     Category saveCategory(Category category);

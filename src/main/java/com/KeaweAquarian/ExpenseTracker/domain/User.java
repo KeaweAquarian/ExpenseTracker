@@ -45,6 +45,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
+    //User profile image
     public Optional<String> getUserProfileImageLink() {
         return Optional.ofNullable(userProfileImageLink);
     }

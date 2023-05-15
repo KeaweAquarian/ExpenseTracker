@@ -24,7 +24,7 @@ public class Role {
             sequenceName = "roles_sequence",
             allocationSize = 1
     )
-
+    //Auto generate role id numbers
     @GeneratedValue(strategy= GenerationType.SEQUENCE,
             generator="roles_sequence")
     private Long id;

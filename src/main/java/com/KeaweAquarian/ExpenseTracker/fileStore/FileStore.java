@@ -13,6 +13,13 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 
+
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
+//Images stored in AWS bucket
 @Service
 public class FileStore {
     private final AmazonS3 s3;
@@ -22,6 +29,7 @@ public class FileStore {
         this.s3 = s3;
     }
 
+    //Method to check and add image to bucket
     public void save(String path, String fileName, Optional<Map<String, String>> optionalMetadata,
                      InputStream inputStream){
         ObjectMetadata metadata = new ObjectMetadata();
@@ -37,6 +45,7 @@ public class FileStore {
         }
     }
 
+    //Method to download image from AWS bucket
     public byte[] download(String path, String key) {
         try {
             S3Object object = s3.getObject(path, key);

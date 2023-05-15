@@ -4,10 +4,14 @@ import com.KeaweAquarian.ExpenseTracker.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +37,6 @@ public class Expense {
     private String description;
 
     private String location;
-
 
     @ManyToOne
     private Category category;

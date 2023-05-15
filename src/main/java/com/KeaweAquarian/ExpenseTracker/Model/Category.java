@@ -1,13 +1,15 @@
 package com.KeaweAquarian.ExpenseTracker.Model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-
 import javax.persistence.*;
 
+/**
+ * @author Keawe Aquarian
+ * @version 1.0
+ * @since 01/01/2023
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
